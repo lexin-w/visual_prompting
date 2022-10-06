@@ -17,7 +17,7 @@ import clip
 from models import prompters
 from utils import accuracy, AverageMeter, ProgressMeter, save_checkpoint
 from utils import cosine_lr, convert_models_to_fp32, refine_classname
-from utils import ImgDataset, load_data, split_dataset
+from utils import ImgDataset, load_data, split_dataset, get_dataset
 
 
 def parse_option():
