@@ -10,14 +10,14 @@ import wandb
 import torch
 import torch.backends.cudnn as cudnn
 from torch.cuda.amp import GradScaler, autocast
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, Dataset
 from torchvision.datasets import CIFAR100
 
 import clip
 from models import prompters
 from utils import accuracy, AverageMeter, ProgressMeter, save_checkpoint
 from utils import cosine_lr, convert_models_to_fp32, refine_classname
-
+from utils import ImgDataset, load_data, split_dataset
 
 
 def parse_option():
@@ -60,6 +60,10 @@ def parse_option():
     parser.add_argument('--root', type=str, default='./data',
                         help='dataset')
     parser.add_argument('--dataset', type=str, default='cifar100',
+                        help='dataset')
+    parser.add_argument('--img_path', type=str, default='/content/vaccine_dataset_v2',
+                        help='dataset')
+    parser.add_argument('--text_path', type=str, default='/content/clean_vaccine_new_v2_text.csv',
                         help='dataset')
     parser.add_argument('--image_size', type=int, default=224,
                         help='image size')
@@ -140,12 +144,18 @@ def main():
     # create data
     template = 'This is a photo of a {}'
     print(f'template: {template}')
+    
+    if args.dataset == 'cifar100':
+        train_dataset = CIFAR100(args.root, transform=preprocess,
+                                 download=True, train=True)
 
-    train_dataset = CIFAR100(args.root, transform=preprocess,
-                             download=True, train=True)
-
-    val_dataset = CIFAR100(args.root, transform=preprocess,
-                           download=True, train=False)
+        val_dataset = CIFAR100(args.root, transform=preprocess,
+                               download=True, train=False)
+    else:
+        imgs, texts, labels = load_data(args.text_path, args.img_path)
+        train_data, val_data = split_dataset(imgs, texts, labels)
+        train_dataset = get_dataset(train_data)
+        val_dataset = get_dataset(val_data)
 
     train_loader = DataLoader(train_dataset,
                               batch_size=args.batch_size, pin_memory=True,
