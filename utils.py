@@ -2,8 +2,45 @@ import shutil
 import os
 import torch
 import numpy as np
+import pandas as pd
+from torch.utils.data.dataset import Dataset
+from torch.utils.data import random_split
+from PIL import Image
+from torchvision import transforms
 
+class ImgDataset(Dataset):
+  def __init__(self, data, label_texts):
+    self.classes = label_texts
+    self.data = data
+    self.length = len(data)
 
+  def __getitem__(self, index):
+    return self.data[0], self.data[1]
+  
+  def __len__(self):
+    return self.length
+
+def load_data(text_path, img_path):
+    text_data = pd.read_csv(text_path,header=None)
+    text_data.columns=['id','text_a','text_b','label']
+    image_dirs = os.listdir(img_path)
+    image_ids = [f[:-4] for f in image_dirs]
+    text_data = text_data[text_data['id'].isin(image_ids)]
+    text_data['text'] = text_data['text_a']+" "+text_data['text_b']
+#     texts = list(text_data['text'])
+#     clip_texts = [text[:155] for text in texts]
+    text_labels = np.array(text_data['label'].unique())
+    labels = [0.0 if l=='otherwise' else 1.0 for l in text_data['label']]
+    imgs = [Image.open(os.path.join(img_path, img_dir)).convert('RGB') for img_dir in image_dirs]
+    return imgs, text_labels, labels
+    
+def split_dataset(imgs, labels, preprocess):
+    imgs = [preprocess(d) for d in imgs]
+    return random_split(dataset=np.concatenate((imgs,labels),axis=1), lengths=[0.7*len(data), len(data)-0.7*len(data)])
+
+def get_dataset(data):
+    return ImgDataset(data)
+    
 def convert_models_to_fp32(model):
     for p in model.parameters():
         p.data = p.data.float()
