@@ -38,8 +38,8 @@ def split_dataset(imgs, labels, preprocess):
     imgs = [preprocess(d) for d in imgs]
     return random_split(dataset=[[imgs[i],labels[i]] for i in range(len(imgs))], lengths=[int(0.7*len(imgs)), len(imgs)-int(0.7*len(imgs))])
 
-def get_dataset(data):
-    return ImgDataset(data)
+def get_dataset(data, text_labels):
+    return ImgDataset(data, text_labels)
     
 def convert_models_to_fp32(model):
     for p in model.parameters():
