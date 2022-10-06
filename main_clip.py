@@ -154,8 +154,8 @@ def main():
     else:
         imgs, texts, labels = load_data(args.text_path, args.img_path)
         train_data, val_data = split_dataset(imgs, labels, preprocess)
-        train_dataset = get_dataset(train_data)
-        val_dataset = get_dataset(val_data)
+        train_dataset = get_dataset(train_data, texts)
+        val_dataset = get_dataset(val_data, texts)
 
     train_loader = DataLoader(train_dataset,
                               batch_size=args.batch_size, pin_memory=True,
