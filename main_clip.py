@@ -262,7 +262,6 @@ def train(train_loader, texts, model, prompter, optimizer, scheduler, criterion,
 
         optimizer.zero_grad()
         
-        images = torch.stack(images)
         images = images.to(device)
         target = target.to(device)
         text_tokens = clip.tokenize(texts).to(device)
