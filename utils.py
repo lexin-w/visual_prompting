@@ -15,7 +15,7 @@ class ImgDataset(Dataset):
     self.length = len(data)
 
   def __getitem__(self, index):
-    return self.data[0], self.data[1]
+    return self.data[index][0], self.data[index][1]
   
   def __len__(self):
     return self.length
