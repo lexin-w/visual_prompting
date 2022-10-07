@@ -142,7 +142,7 @@ def main():
             print("=> no checkpoint found at '{}'".format(args.resume))
 
     # create data
-    template = 'This is a photo of a {}'
+    template = 'This meme is {}'
     print(f'template: {template}')
     
     if args.dataset == 'cifar100':
