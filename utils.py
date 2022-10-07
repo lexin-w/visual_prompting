@@ -39,11 +39,11 @@ def split_dataset(imgs, labels, preprocess):
     imgs = torch.stack(imgs)
     print("img after prepross:", imgs.shape)
     data = [[imgs[i],labels[i]] for i in range(len(imgs))]
-    print("data:", data)
+    print("data:", data[0])
     return random_split(dataset=data, lengths=[int(0.7*len(imgs)), len(imgs)-int(0.7*len(imgs))])
 
 def get_dataset(data, text_labels):
-    print("data:",data)
+#     print("data:",data)
     return ImgDataset(data, text_labels)
     
 def convert_models_to_fp32(model):
