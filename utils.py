@@ -31,7 +31,7 @@ def load_data(text_path, img_path):
 #     clip_texts = [text[:155] for text in texts]
     text_labels = np.array(text_data['label'].unique())
     labels = [0.0 if l=='otherwise' else 1.0 for l in text_data['label']]
-    labels = torch.tensor(labels, dtype=torch.float)
+    labels = torch.tensor(labels, dtype=torch.long)
     imgs = [Image.open(os.path.join(img_path, img_dir)).convert('RGB') for img_dir in image_dirs]
     return imgs, text_labels, labels
     
