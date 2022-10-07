@@ -36,8 +36,8 @@ def load_data(text_path, img_path):
     
 def split_dataset(imgs, labels, preprocess):
     imgs = [preprocess(d) for d in imgs]
-    print("img after prepross:", imgs.shape)
     imgs = torch.stack(imgs)
+    print("img after prepross:", imgs.shape)
     data = [[imgs[i],labels[i]] for i in range(len(imgs))]
     print("data:", data)
     return random_split(dataset=data, lengths=[int(0.7*len(imgs)), len(imgs)-int(0.7*len(imgs))])
