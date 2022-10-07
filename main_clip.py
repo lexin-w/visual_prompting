@@ -153,9 +153,7 @@ def main():
                                download=True, train=False)
     else:
         imgs, texts, labels = load_data(args.text_path, args.img_path)
-        print("imgs:",imgs)
         train_data, val_data = split_dataset(imgs, labels, preprocess)
-        print("train_data:",train_data[0])
         train_dataset = get_dataset(train_data, texts)
         val_dataset = get_dataset(val_data, texts)
 
@@ -265,8 +263,6 @@ def train(train_loader, texts, model, prompter, optimizer, scheduler, criterion,
         optimizer.zero_grad()
         
         images = torch.stack(images)
-        print("imgs:",images)
-        print("target:",target)
         images = images.to(device)
         target = target.to(device)
         text_tokens = clip.tokenize(texts).to(device)
