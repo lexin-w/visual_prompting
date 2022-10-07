@@ -155,7 +155,7 @@ def main():
         imgs, texts, labels = load_data(args.text_path, args.img_path)
         print("imgs:",imgs)
         train_data, val_data = split_dataset(imgs, labels, preprocess)
-        print("train_data:",train_data)
+        print("train_data:",train_data[0])
         train_dataset = get_dataset(train_data, texts)
         val_dataset = get_dataset(val_data, texts)
 
