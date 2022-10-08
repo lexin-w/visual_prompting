@@ -360,6 +360,7 @@ def validate(val_loader, texts, model, prompter, criterion, args):
               .format(top1_prompt=top1_prompt, top1_org=top1_org))
         
         val_targets=val_targets.cpu()
+        val_preds=val_preds.cpu()
         
         topk=(1,)
         maxk = max(topk)
