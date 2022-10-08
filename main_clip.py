@@ -62,7 +62,7 @@ def parse_option():
                         help='dataset')
     parser.add_argument('--dataset', type=str, default='cifar100',
                         help='dataset')
-    parser.add_argument('--img_path', type=str, default='/content/images', # change path
+    parser.add_argument('--img_path', type=str, default='./images', # change path
                         help='dataset')
     parser.add_argument('--text_path', type=str, default='/content/target_all.csv', # change path
                         help='dataset')
