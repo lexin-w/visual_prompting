@@ -361,7 +361,7 @@ def validate(val_loader, texts, model, prompter, criterion, args):
         
         val_targets=val_targets.cpu()
         val_targets = [1 if v >= 0.5 else 0 for v in val_targets]
-        print(classification_report(, val_preds.cpu()))
+        print(classification_report(val_targets, val_preds.cpu()))
 
         if args.use_wandb:
             wandb.log({
