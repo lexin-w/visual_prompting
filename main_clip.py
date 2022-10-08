@@ -18,6 +18,7 @@ from models import prompters
 from utils import accuracy, AverageMeter, ProgressMeter, save_checkpoint
 from utils import cosine_lr, convert_models_to_fp32, refine_classname
 from utils import ImgDataset, load_data, split_dataset, get_dataset
+from sklearn.metrics import classification_report
 
 
 def parse_option():
@@ -322,6 +323,8 @@ def validate(val_loader, texts, model, prompter, criterion, args):
 
     with torch.no_grad():
         end = time.time()
+        val_preds=None, val_targets=None
+        best_acc=0
         for i, (images, target) in enumerate(tqdm(val_loader)):
 
             images = images.to(device)
@@ -336,6 +339,9 @@ def validate(val_loader, texts, model, prompter, criterion, args):
 
             # measure accuracy and record loss
             acc1 = accuracy(output_prompt, target, topk=(1,))
+            if acc1>best_acc:
+                val_preds = output_prompt
+                val_targets = target
             losses.update(loss.item(), images.size(0))
             top1_prompt.update(acc1[0].item(), images.size(0))
 
@@ -351,6 +357,8 @@ def validate(val_loader, texts, model, prompter, criterion, args):
 
         print(' * Prompt Acc@1 {top1_prompt.avg:.3f} Original Acc@1 {top1_org.avg:.3f}'
               .format(top1_prompt=top1_prompt, top1_org=top1_org))
+        
+        print(classfication_report(val_targets, val_preds))
 
         if args.use_wandb:
             wandb.log({
