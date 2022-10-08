@@ -359,7 +359,9 @@ def validate(val_loader, texts, model, prompter, criterion, args):
         print(' * Prompt Acc@1 {top1_prompt.avg:.3f} Original Acc@1 {top1_org.avg:.3f}'
               .format(top1_prompt=top1_prompt, top1_org=top1_org))
         
-        print(classification_report(val_targets.cpu(), val_preds.cpu()))
+        val_targets=val_targets.cpu()
+        val_targets = [1 if v >= 0.5 else 0 for v in val_targets]
+        print(classification_report(, val_preds.cpu()))
 
         if args.use_wandb:
             wandb.log({
