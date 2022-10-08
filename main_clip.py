@@ -359,7 +359,7 @@ def validate(val_loader, texts, model, prompter, criterion, args):
         print(' * Prompt Acc@1 {top1_prompt.avg:.3f} Original Acc@1 {top1_org.avg:.3f}'
               .format(top1_prompt=top1_prompt, top1_org=top1_org))
         
-        print(classfication_report(val_targets, val_preds))
+        print(classification_report(val_targets, val_preds))
 
         if args.use_wandb:
             wandb.log({
