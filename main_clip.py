@@ -62,9 +62,9 @@ def parse_option():
                         help='dataset')
     parser.add_argument('--dataset', type=str, default='cifar100',
                         help='dataset')
-    parser.add_argument('--img_path', type=str, default='/content/vaccine_dataset_v2',
+    parser.add_argument('--img_path', type=str, default='/content/images', # change path
                         help='dataset')
-    parser.add_argument('--text_path', type=str, default='/content/clean_vaccine_new_v2_text.csv',
+    parser.add_argument('--text_path', type=str, default='/content/target_all.csv', # change path
                         help='dataset')
     parser.add_argument('--image_size', type=int, default=224,
                         help='image size')
