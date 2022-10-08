@@ -366,7 +366,9 @@ def validate(val_loader, texts, model, prompter, criterion, args):
         val_targets = [1 if v >= 0.5 else 0 for v in val_targets]
         
         val_preds = [0 if v[0]>v[1] else 1 for v in val_preds]
+        
         val_preds = torch.tensor(val_preds)
+        print("val_preds:",val_preds)
         print(classification_report(val_targets, val_preds))
 
         if args.use_wandb:
