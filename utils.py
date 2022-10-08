@@ -34,7 +34,7 @@ def load_data(text_path, img_path):
     text_labels = np.array(text_data['label'].unique())
 #     labels = [0.0 if l=='otherwise' else 1.0 for l in text_data['label']] # comment out
 #     labels = torch.tensor(labels, dtype=torch.long) # comment out
-    Y = np.array(text_dataset['label'])
+    Y = np.array(text_data['label'])
     labels = torch.zeros((len(Y),4)) # one-hot encodeing
     for i in range(len(Y)) :
       if (Y[i]=="individual") :
