@@ -21,17 +21,31 @@ class ImgDataset(Dataset):
     return self.length
 
 def load_data(text_path, img_path):
-    text_data = pd.read_csv(text_path,header=None)
-    text_data.columns=['id','text_a','text_b','label']
+    text_data = pd.read_csv(text_path) # changed
+    text_data = text_data.dropna() # added
+#     text_data.columns=['id','text_a','text_b','label']
     image_dirs = os.listdir(img_path)
     image_ids = [f[:-4] for f in image_dirs]
     text_data = text_data[text_data['id'].isin(image_ids)]
-    text_data['text'] = text_data['text_a']+" "+text_data['text_b']
+#     text_data['text'] = text_data['text_a']+" "+text_data['text_b'] # comment out
 #     texts = list(text_data['text'])
 #     clip_texts = [text[:155] for text in texts]
+   
     text_labels = np.array(text_data['label'].unique())
-    labels = [0.0 if l=='otherwise' else 1.0 for l in text_data['label']]
-    labels = torch.tensor(labels, dtype=torch.long)
+#     labels = [0.0 if l=='otherwise' else 1.0 for l in text_data['label']] # comment out
+#     labels = torch.tensor(labels, dtype=torch.long) # comment out
+    Y = np.array(text_dataset['label'])
+    labels = torch.zeros((len(Y),4)) # one-hot encodeing
+    for i in range(len(Y)) :
+      if (Y[i]=="individual") :
+        labels[i][0] = 1
+      elif (Y[i]=="community") :
+        labels[i][1] = 1
+      elif (Y[i]=="society") :
+        labels[i][2] = 1
+      else :
+        labels[i][3] = 1 
+    
     imgs = [Image.open(os.path.join(img_path, img_dir)).convert('RGB') for img_dir in image_dirs]
     return imgs, text_labels, labels
     
