@@ -340,7 +340,7 @@ def validate(val_loader, texts, model, prompter, criterion, args):
 
             # measure accuracy and record loss
             acc1 = accuracy(output_prompt, target, topk=(1,))
-            if acc1>best_acc:
+            if acc1[0].item()>best_acc:
                 val_preds = output_prompt
                 val_targets = target
             losses.update(loss.item(), images.size(0))
