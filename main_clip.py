@@ -323,7 +323,8 @@ def validate(val_loader, texts, model, prompter, criterion, args):
 
     with torch.no_grad():
         end = time.time()
-        val_preds=None, val_targets=None
+        val_preds=[]
+        val_targets=[]
         best_acc=0
         for i, (images, target) in enumerate(tqdm(val_loader)):
 
