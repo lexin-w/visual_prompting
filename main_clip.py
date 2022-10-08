@@ -364,17 +364,17 @@ def validate(val_loader, texts, model, prompter, criterion, args):
         topk=(1,)
         maxk = max(topk)
         _, pred = val_preds.topk(maxk, 1, True, True)
-        pred = pred.t()
-        print("preds:",pred)
+        preds = pred.t()
+        print("preds:",preds)
 #         print("val_targets:",val_targets)
 # #         print("val_preds:",val_preds)
 #         val_targets = [1 if v >= 0.5 else 0 for v in val_targets]
 
-#         print("val_preds:",val_preds)
+# #         print("val_preds:",val_preds)
     
-        val_preds = [0 if v[0]>v[1] else 1 for v in val_preds]
+#         val_preds = [0 if v[0]>v[1] else 1 for v in val_preds]
         
-        val_preds = torch.tensor(val_preds)
+#         val_preds = torch.tensor(val_preds)
 #         print("val_preds:",val_preds)
         print(classification_report(val_targets, val_preds))
 
