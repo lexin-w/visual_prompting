@@ -360,7 +360,12 @@ def validate(val_loader, texts, model, prompter, criterion, args):
               .format(top1_prompt=top1_prompt, top1_org=top1_org))
         
         val_targets=val_targets.cpu()
-        val_preds=val_preds.cpu()
+        
+        topk=(1,)
+        maxk = max(topk)
+        _, pred = val_preds.topk(maxk, 1, True, True)
+        pred = pred.t()
+        print("preds:",pred)
 #         print("val_targets:",val_targets)
 # #         print("val_preds:",val_preds)
 #         val_targets = [1 if v >= 0.5 else 0 for v in val_targets]
