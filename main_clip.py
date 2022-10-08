@@ -377,8 +377,9 @@ def validate(val_loader, texts, model, prompter, criterion, args):
         
 #         val_preds = torch.tensor(val_preds)
 #         print("val_preds:",val_preds)
-        print(classification_report(val_targets, val_preds))
-
+#         print(classification_report(val_targets, val_preds))
+        print(classification_report(val_targets.cpu().argmax(dim = 1), val_preds.cpu().argmax(dim = 1)))
+          
         if args.use_wandb:
             wandb.log({
                 'val_loss': losses.avg,
